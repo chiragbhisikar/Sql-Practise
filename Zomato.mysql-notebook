@@ -1,0 +1,335 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "USE ZOMATO;\n-- Customer Manager\nCREATE TABLE CUSTOMER(\n   CUSTOMER_ID BIGINT NOT NULL AUTO_INCREMENT,\n   PhoneNumber VARCHAR(10) UNIQUE NOT NULL,\n   Email VARCHAR(25),\n   DOB DATE,\n   ANIVERSERY_DATE DATE,\n\n   # CONSTRAINT\n   PRIMARY KEY (CUSTOMER_ID),\n   CONSTRAINT CK_Customer_PhoneNumber CHECK (PhoneNumber LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')\n);\n\n-- Address Manager\nCREATE TABLE STATE\n(\n   STATE_ID INT NOT NULL AUTO_INCREMENT,\n   STATE_NAME VARCHAR(50),\n   PRIMARY KEY (STATE_ID)\n);\n\nCREATE TABLE CITY(\n   CITY_ID INT NOT NULL AUTO_INCREMENT,\n   CITY_NAME VARCHAR(50),\n   STATE_ID INT NOT NULL,\n   PRIMARY KEY (CITY_ID),\n   FOREIGN KEY (STATE_ID) REFERENCES STATE(STATE_ID) ON DELETE CASCADE\n);\n\nCREATE TABLE AREA(\n   AREA_ID INT NOT NULL AUTO_INCREMENT,\n   AREA_NAME VARCHAR(50),\n   CITY_ID INT NOT NULL,\n   PRIMARY KEY (AREA_ID),\n   FOREIGN KEY (CITY_ID) REFERENCES CITY(CITY_ID) ON DELETE CASCADE\n);\n\n\nCREATE TABLE ADDRESS(\n   ADDRESS_ID INT NOT NULL AUTO_INCREMENT,\n   CUSTOMER_ID BIGINT NOT NULL,\n   ADDRESS_LINE_1 VARCHAR(100),\n   ADDRESS_LINE_2 VARCHAR(100),\n   STREET VARCHAR(100),\n   AREA_ID INT NOT NULL,\n   PIN_CODE VARCHAR(10) NOT NULL,\n   LATITUDE DOUBLE,\n   LONGITUDE DOUBLE,\n\n   # CONSTRAINT\n   PRIMARY KEY (ADDRESS_ID),\n   FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER(CUSTOMER_ID) ON DELETE CASCADE,\n   CONSTRAINT CK_Address_PINCODE CHECK (PIN_CODE LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),\n   FOREIGN KEY (AREA_ID) REFERENCES AREA(AREA_ID) ON DELETE CASCADE\n);\n\nCREATE TABLE `STORE` (\n  `STORE_ID` int NOT NULL AUTO_INCREMENT,\n  `STORE_NAME` VARCHAR(255) NOT NULL,\n  `PHONE_NUMBER` varchar(100) DEFAULT NULL,\n  `Email` varchar(100) DEFAULT NULL,\n  `GSTIN` varchar(100) DEFAULT NULL,\n  `FSSIN` varchar(100) DEFAULT NULL,\n  `IS_STORE_VERIFIED` enum('IN_PROCESS','REJECTED','NOT_VERIFIED','VERIFIED') NOT NULL DEFAULT 'NOT_VERIFIED',\n  \n  PRIMARY KEY (`STORE_ID`)\n);\n\n\nCREATE TABLE `STORE_ADDRESS` (\n  `ADDRESS_ID` int NOT NULL AUTO_INCREMENT,\n  `STORE_ID` int NOT NULL,\n  `ADDRESS_LINE_1` varchar(100) NOT NULL,\n  `ADDRESS_LINE_2` varchar(100) DEFAULT NULL,\n  `STREET` varchar(100) NOT NULL,\n  `AREA_ID` int NOT NULL,\n  `PIN_CODE` varchar(10) NOT NULL,\n  `LATITUDE` double NOT NULL,\n  `LONGITUDE` double NOT NULL,\n\n\n  PRIMARY KEY (`ADDRESS_ID`),\n  KEY `STORE_ID` (`STORE_ID`),\n  KEY `AREA_ID` (`AREA_ID`),\n  CONSTRAINT `store_address_ibfk_1` FOREIGN KEY (`STORE_ID`) REFERENCES `STORE` (`STORE_ID`) ON DELETE CASCADE,\n  CONSTRAINT `store_address_ibfk_2` FOREIGN KEY (`AREA_ID`) REFERENCES `AREA` (`AREA_ID`) ON DELETE CASCADE\n # CONSTRAINT `CK_Store_Address_PINCODE` CHECK ((`PIN_CODE` like _utf8mb4'[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))\n);\n\nCREATE TABLE `DOCUMENT` (\n  `DOCUMENT_ID` int NOT NULL AUTO_INCREMENT,\n  `DOCUMENT_NAME` bigint NOT NULL,\n  `DOCUMENT_TYPE` ENUM('STORE','DRIVER') NOT NULL,\n  `DOUCMENT_DEMO_URL` varchar(255) DEFAULT NULL,\n  \n   PRIMARY KEY (`DOCUMENT_ID`)\n);\n\n\nCREATE TABLE `STORE_DOCUMENT` (\n  `STORE_DOCUMENT_ID` INT NOT NULL AUTO_INCREMENT,\n  `DOCUMENT_ID` INT NOT NULL,\n  `STORE_ID` INT NOT NULL,\n  `UPLOADED_DOCUMENT_URL` VARCHAR(255) DEFAULT \"\",\n  `IS_DOCUMENT_VERIFIED` ENUM('IN_PROCESS','REJECTED','APPROVED') NOT NULL DEFAULT 'IN_PROCESS',\n\n  PRIMARY KEY (`STORE_DOCUMENT_ID`),\n  FOREIGN KEY (`DOCUMENT_ID`) REFERENCES DOCUMENT(DOCUMENT_ID) ON DELETE CASCADE,\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE\n);\n\n\nCREATE TABLE IF NOT EXISTS `STORE_IMAGE` (\n  `STORE_IMAGE_ID` int NOT NULL AUTO_INCREMENT,\n  `STORE_ID` int,\n  `STORE_IMAGE_URL` varchar(255),\n  `IMAGE_ORDER_NO` int DEFAULT 0,\n\n  PRIMARY KEY (`STORE_IMAGE_ID`),\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE\n);\n\n\nCREATE TABLE IF NOT EXISTS `STORE_MENU` (\n  `STORE_MENU_ID` int NOT NULL AUTO_INCREMENT,\n  `STORE_ID` int,\n  `MENU_IMAGE_URL` varchar(255),\n  `IMAGE_ORDER_NO` int DEFAULT 0,\n\n  PRIMARY KEY (`STORE_MENU_ID`),\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE\n);\n\n\n# FOOD MANAGER\n\n# Mumbaiya Vadapav, Jain Vadapav --> Sabka Bhau Vadapav (14)\nCREATE TABLE `FOOD_CATEGORY` (\n  `FOOD_CATEGORY_ID` INT NOT NULL AUTO_INCREMENT,\n  `STORE_ID` int NOT NULL,\n\n  PRIMARY KEY (`FOOD_CATEGORY_ID`),\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE\n);\n\n# Sabka Bhau Vadapav (14), Hatke Khao Samosa Pav (9), Kothimbir Vadi For Everybody (8), \nCREATE TABLE `FOOD_CATEGORY_DEVIDER` (\n  `FOOD_CATEGORY_DEVIDER_ID` INT NOT NULL AUTO_INCREMENT,\n  `FOOD_CATEGORY_ID` INT,\n  `FOOD_ID` INT,\n\n  PRIMARY KEY (`FOOD_CATEGORY_DEVIDER_ID`),\n  FOREIGN KEY (`FOOD_CATEGORY_ID`) REFERENCES FOOD_CATEGORY(FOOD_CATEGORY_ID) ON DELETE SET NULL,\n  FOREIGN KEY (`FOOD_ID`) REFERENCES FOOD(FOOD_ID) ON DELETE CASCADE\n);\n\n\nCREATE TABLE `FOOD` (\n  `FOOD_ID` int NOT NULL AUTO_INCREMENT,\n  `STORE_ID` int NOT NULL,\n  `FOOD_TYPE` ENUM('VEG','NON_VEG') DEFAULT 'VEG',\n  `FOOD_CATEGORY_ID` INT,\n  `DESC` TEXT DEFAULT NULL,\n  `MRP` FLOAT NOT NULL,\n  `PRICE` FLOAT NOT NULL,\n  `IS_AVAILABLE` BOOL DEFAULT TRUE,\n\n  PRIMARY KEY (`FOOD_ID`),\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE,\n  FOREIGN KEY (`FOOD_CATEGORY_ID`) REFERENCES FOOD_CATEGORY(FOOD_CATEGORY_ID) ON DELETE SET NULL,\n  CONSTRAINT `CK_Food_Price` CHECK (`MRP` >= `PRICE`)\n);\n\n\nCREATE TABLE IF NOT EXISTS `FOOD_IMAGE` (\n  `FOOD_IMAGE_ID` int NOT NULL AUTO_INCREMENT,\n  `FOOD_ID` int,\n  `FOOD_IMAGE_URL` varchar(255),\n\n  PRIMARY KEY (`FOOD_IMAGE_ID`),\n  FOREIGN KEY (`FOOD_ID`) REFERENCES FOOD(FOOD_ID) ON DELETE CASCADE\n);\n\n\n# Maharashtrian, Street Food, Beverages\nCREATE TABLE CUISINE (\n   CUISINE_ID INT NOT NULL AUTO_INCREMENT,\n   NAME VARCHAR(50),\n   \n   PRIMARY KEY (`CUISINE_ID`)\n);\n\n# MMV --> Maharashtrian, Street Food, Beverages\nCREATE TABLE STORE_CUISINE (\n   STORE_CUISINE_ID INT NOT NULL AUTO_INCREMENT,\n   CUISINE_ID INT,\n   STORE_ID INT,\n   \n   PRIMARY KEY (`STORE_CUISINE_ID`),\n   FOREIGN KEY (`CUISINE_ID`) REFERENCES CUISINE(CUISINE_ID) ON DELETE CASCADE,\n   FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE\n);\n\n# Breakfast, Home Delivery , Takeaway Available , Vegetarian Only , Indoor Seating\nCREATE TABLE FACILITY (\n   FACILITY_ID INT NOT NULL AUTO_INCREMENT,\n   NAME VARCHAR(50),\n   \n   PRIMARY KEY (`FACILITY_ID`)\n);\n\nCREATE TABLE STORE_FACILITY (\n   STORE_FACILITY_ID INT NOT NULL AUTO_INCREMENT,\n   FACILITY_ID INT,\n   STORE_ID INT,\n   \n   PRIMARY KEY (`STORE_FACILITY_ID`),\n   FOREIGN KEY (`FACILITY_ID`) REFERENCES FACILITY(FACILITY_ID) ON DELETE CASCADE,\n   FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE\n);\n\n\nCREATE TABLE `STORE_HOLIDAY` (\n  `STORE_HOLIDAY_ID` bigint unsigned NOT NULL AUTO_INCREMENT,\n  `DATE` date NOT NULL,\n  `MESSAGE` TEXT,\n  `STORE_ID` int,\n\n  PRIMARY KEY (`STORE_HOLIDAY_ID`),\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE\n);\n\nCREATE TABLE `STORE_TIME` (\n  `STORE_TIME_ID` bigint unsigned NOT NULL AUTO_INCREMENT,\n  `STORE_ID` int NOT NULL,\n  `DAY` ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') DEFAULT 'Monday',\n  `OPEN_TIME` TIME,\n  `CLOSE_TIME` TIME,\n\n  PRIMARY KEY (`STORE_TIME_ID`),\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE,\n  CONSTRAINT UNIQUE (STORE_ID, DAY)\n);\n\n\n-- Order Manager\nCREATE TABLE `ORDER` (\n  `ORDER_ID` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,\n  `CUSTOMER_ID` BIGINT NOT NULL,\n  `STORE_ID` INT NOT NULL,\n  `ADDRESS_ID` INT NOT NULL,\n  `DELIVERY_BOY_ID` INT NOT NULL,\n  `DELIVERY_STATUS` INT NOT NULL,\n  \n\n  `QUANTITY` INT NOT NULL DEFAULT 1,\n  `DELIVERY_CHARGES` FLOAT NOT NULL,\n  \n  `PAYMENT_MODE` ENUM('COD', 'ONLINE') DEFAULT 'COD', \n  `TRANSCATION_ID` INT UNSIGNED,\n\n  `ORDER_DATE` DATETIME NOT NULL,\n\n  PRIMARY KEY (`ORDER_ID`),\n  FOREIGN KEY (`CUSTOMER_ID`) REFERENCES CUSTOMER(CUSTOMER_ID) ON DELETE CASCADE,\n  FOREIGN KEY (`STORE_ID`) REFERENCES STORE(STORE_ID) ON DELETE CASCADE,\n  FOREIGN KEY (`ADDRESS_ID`) REFERENCES ADDRESS(ADDRESS_ID) ON DELETE CASCADE\n);\n\n\n\nCREATE TABLE `ORDER_FOOD_LIST` (\n  `ORDER_FOOD_LIST_ID` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,\n  `CUSTOMER_ID` BIGINT NOT NULL,\n  `ORDER_ID` BIGINT  UNSIGNED NOT NULL,\n  `FOOD_ID` INT NOT NULL,\n\n\n  `QUANTITY` INT NOT NULL DEFAULT 1,\n  `PRICE` FLOAT NOT NULL,  # --> SINGLE PRODUCT\n  `MRP_PRICE` FLOAT NOT NULL,\n  `ADMIN_CHARGES` FLOAT NOT NULL,\n  `TOTAL_AMOUNT` FLOAT NOT NULL, \n\n\n  PRIMARY KEY (`ORDER_FOOD_LIST_ID`),\n  FOREIGN KEY (`CUSTOMER_ID`) REFERENCES CUSTOMER(CUSTOMER_ID) ON DELETE CASCADE,\n  FOREIGN KEY (`ORDER_ID`) REFERENCES `ORDER`(ORDER_ID) ON DELETE CASCADE,\n  FOREIGN KEY (`FOOD_ID`) REFERENCES FOOD(FOOD_ID) ON DELETE CASCADE\n);\n\n\nCREATE TABLE `TRANSCATION` (\n  `TRANSCATION_ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n  `REFERENCE_NO` VARCHAR(255) NOT NULL,\n  `ORDER_ID` BIGINT UNSIGNED NOT NULL,\n  `PAYMENT_OPTION` VARCHAR(255),\n  `MESSAGE` TEXT,\n  `AMOUNT` FLOAT NOT NULL,\n\n  PRIMARY KEY (`TRANSCATION_ID`),\n  FOREIGN KEY (`ORDER_ID`) REFERENCES `ORDER`(ORDER_ID) ON DELETE CASCADE\n);\n\nALTER TABLE `ORDER` ADD FOREIGN KEY (`TRANSCATION_ID`) REFERENCES TRANSCATION(TRANSCATION_ID);\n\n\nCREATE TABLE `DELIVERY_BOY` (\n  `DELIVERY_BOY_ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n  `FULL_NAME` VARCHAR(255),\n  `DATE_OF_BIRTH` DATE NOT NULL,\n  `PASSPORT_PHOTO_URL` VARCHAR(255),\n  `IS_ONLINE` BOOL DEFAULT FALSE,\n  `IS_VERIFIED` ENUM('NOT_VERIFIED','VERIFIED') DEFAULT 'NOT_VERIFIED',\n\n  PRIMARY KEY (`DELIVERY_BOY_ID`)\n);\n\nCREATE TABLE `DELIVERY_BOY_LOCATION` (\n  `DELIVERY_BOY_ID` INT UNSIGNED NOT NULL,\n  `LAT` FLOAT,\n  `LONG` FLOAT,\n\n   FOREIGN KEY (`DELIVERY_BOY_ID`) REFERENCES DELIVERY_BOY(DELIVERY_BOY_ID) ON DELETE CASCADE\n);\n\nCREATE TABLE `DELIVERY_BOY_DOCUMENT` (\n  `DELIVERY_BOY_DOCUMENT_ID` INT NOT NULL AUTO_INCREMENT,\n  `DOCUMENT_ID` INT NOT NULL,\n  `DELIVERY_BOY_ID` INT UNSIGNED NOT NULL,\n  `ISSUE_DATE` DATE,\n  `EXPIRY_DATE` DATE,\n  `UPLOADED_DOCUMENT_URL` VARCHAR(255) DEFAULT \"\",\n  `IS_DOCUMENT_VERIFIED` ENUM('IN_PROCESS','REJECTED','APPROVED') NOT NULL DEFAULT 'IN_PROCESS',\n\n  PRIMARY KEY (`DELIVERY_BOY_DOCUMENT_ID`),\n  FOREIGN KEY (`DOCUMENT_ID`) REFERENCES DOCUMENT(DOCUMENT_ID) ON DELETE CASCADE,\n  FOREIGN KEY (`DELIVERY_BOY_ID`) REFERENCES DELIVERY_BOY(DELIVERY_BOY_ID) ON DELETE CASCADE\n);\n\n\n\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 342,
+                    "column": 1
+                },
+                "position": {
+                    "lineNumber": 342,
+                    "column": 1
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 313,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -5
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 345,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 2,
+                            "index": 0,
+                            "resultId": "5a66d302-9afe-4a98-f6a1-c71af89181f4",
+                            "content": "OK, 0 records retrieved in 20.448ms"
+                        }
+                    ]
+                },
+                "currentHeight": 28,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 11
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 11,
+                            "length": 360
+                        },
+                        "contentStart": 32,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 371,
+                            "length": 138
+                        },
+                        "contentStart": 392,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 509,
+                            "length": 212
+                        },
+                        "contentStart": 511,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 721,
+                            "length": 208
+                        },
+                        "contentStart": 723,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 929,
+                            "length": 594
+                        },
+                        "contentStart": 932,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1523,
+                            "length": 403
+                        },
+                        "contentStart": 1525,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1926,
+                            "length": 791
+                        },
+                        "contentStart": 1929,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2717,
+                            "length": 244
+                        },
+                        "contentStart": 2719,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2961,
+                            "length": 485
+                        },
+                        "contentStart": 2964,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3446,
+                            "length": 289
+                        },
+                        "contentStart": 3449,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3735,
+                            "length": 285
+                        },
+                        "contentStart": 3738,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4020,
+                            "length": 299
+                        },
+                        "contentStart": 4100,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4319,
+                            "length": 445
+                        },
+                        "contentStart": 4410,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4764,
+                            "length": 539
+                        },
+                        "contentStart": 4767,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5303,
+                            "length": 247
+                        },
+                        "contentStart": 5306,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5550,
+                            "length": 166
+                        },
+                        "contentStart": 5593,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5716,
+                            "length": 360
+                        },
+                        "contentStart": 5766,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6076,
+                            "length": 211
+                        },
+                        "contentStart": 6161,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6287,
+                            "length": 319
+                        },
+                        "contentStart": 6289,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6606,
+                            "length": 267
+                        },
+                        "contentStart": 6609,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6873,
+                            "length": 411
+                        },
+                        "contentStart": 6875,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 7284,
+                            "length": 722
+                        },
+                        "contentStart": 7304,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 8006,
+                            "length": 653
+                        },
+                        "contentStart": 8010,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 8659,
+                            "length": 357
+                        },
+                        "contentStart": 8662,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 9016,
+                            "length": 96
+                        },
+                        "contentStart": 9018,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 9112,
+                            "length": 332
+                        },
+                        "contentStart": 9115,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 9444,
+                            "length": 212
+                        },
+                        "contentStart": 9446,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 9656,
+                            "length": 585
+                        },
+                        "contentStart": 9658,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 10241,
+                            "length": 5
+                        },
+                        "contentStart": 10240,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}

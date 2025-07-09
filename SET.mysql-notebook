@@ -1,0 +1,569 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "Result #1",
+    "content": "SHOW DATABASES;\nCREATE DATABASE SQL_PRACTISE;\nUSE SQL_PRACTISE;\n# SHOW TABLES;\n\n# SET OPERATIONS\n\nCREATE TABLE DEPARTMENT1(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(50),\n    role VARCHAR(50)\n);\nCREATE TABLE DEPARTMENT2(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(50),\n    role VARCHAR(50)\n);\n\nINSERT INTO DEPARTMENT1(id, name, role) VALUES\n(1, 'A', 'engineer'),\n(2, 'B', 'salesman'),\n(3, 'C', 'manager'),\n(4, 'D', 'salesman'),\n(5, 'E', 'engineer');\n\n\nINSERT INTO DEPARTMENT2(id, name, role) VALUES\n(3, 'C', 'manager'),\n(6, 'F', 'marketing'),\n(7, 'G', 'salesman');\n\n# UNION\n\n# List all the employee in the company --> UNION\nSELECT * FROM DEPARTMENT1 \nUNION\nSELECT * FROM DEPARTMENT2;\n\n# List all the employee who works for the both department --> INTERSECTION\nSELECT DEPARTMENT1.* FROM DEPARTMENT1\nINNER JOIN \nDEPARTMENT2 USING(id);\n\n# List Out All The Employee Who Working On Department 1 But Not In Department 2 --> MINUS\nSELECT DEPARTMENT1.* FROM DEPARTMENT1\nLEFT JOIN \nDEPARTMENT2 USING(id) WHERE DEPARTMENT2.id IS NULL;\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 48,
+                    "column": 1
+                },
+                "position": {
+                    "lineNumber": 48,
+                    "column": 1
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 39,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -15
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 48,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "a39acb37-7ba4-4a85-ec57-c637c8d7a8ae",
+                        "36ef7047-cfda-4add-b78e-163cef80cc32",
+                        "0d7a826e-07be-46b7-ed93-f8e035112062",
+                        "7a25df8f-7df2-42bb-bd07-5c7da960f05a"
+                    ]
+                },
+                "currentHeight": 351.984375,
+                "currentSet": 4,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 15
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 15,
+                            "length": 30
+                        },
+                        "contentStart": 16,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 45,
+                            "length": 18
+                        },
+                        "contentStart": 46,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 63,
+                            "length": 163
+                        },
+                        "contentStart": 98,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 226,
+                            "length": 129
+                        },
+                        "contentStart": 227,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 355,
+                            "length": 157
+                        },
+                        "contentStart": 357,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 512,
+                            "length": 115
+                        },
+                        "contentStart": 515,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 627,
+                            "length": 119
+                        },
+                        "contentStart": 687,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 746,
+                            "length": 149
+                        },
+                        "contentStart": 823,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 895,
+                            "length": 192
+                        },
+                        "contentStart": 987,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1087,
+                            "length": 1
+                        },
+                        "contentStart": 1086,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "729e06c6-eb5e-4899-ef51-0d2476f6bcd0",
+                    "resultId": "a39acb37-7ba4-4a85-ec57-c637c8d7a8ae",
+                    "rows": [
+                        {
+                            "0": "alankarclothes"
+                        },
+                        {
+                            "0": "AMS"
+                        },
+                        {
+                            "0": "chat_app_db"
+                        },
+                        {
+                            "0": "dreamshop"
+                        },
+                        {
+                            "0": "exam"
+                        },
+                        {
+                            "0": "ezsave"
+                        },
+                        {
+                            "0": "food-management-system"
+                        },
+                        {
+                            "0": "geoagroeng"
+                        },
+                        {
+                            "0": "hibernate"
+                        },
+                        {
+                            "0": "iKrishi"
+                        },
+                        {
+                            "0": "information_schema"
+                        },
+                        {
+                            "0": "JDBC"
+                        },
+                        {
+                            "0": "Learn"
+                        },
+                        {
+                            "0": "library-spring"
+                        },
+                        {
+                            "0": "mysql"
+                        },
+                        {
+                            "0": "performance_schema"
+                        },
+                        {
+                            "0": "scm"
+                        },
+                        {
+                            "0": "spring-learning"
+                        },
+                        {
+                            "0": "springsecurity"
+                        },
+                        {
+                            "0": "Sql_Learning"
+                        },
+                        {
+                            "0": "SQL_PRACTISE"
+                        },
+                        {
+                            "0": "sys"
+                        },
+                        {
+                            "0": "torarb"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Database",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 23 records retrieved in 1.405ms"
+                    },
+                    "totalRowCount": 23,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "SHOW DATABASES",
+                    "updatable": false
+                },
+                {
+                    "tabId": "729e06c6-eb5e-4899-ef51-0d2476f6bcd0",
+                    "resultId": "36ef7047-cfda-4add-b78e-163cef80cc32",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "A",
+                            "2": "engineer"
+                        },
+                        {
+                            "0": 2,
+                            "1": "B",
+                            "2": "salesman"
+                        },
+                        {
+                            "0": 3,
+                            "1": "C",
+                            "2": "manager"
+                        },
+                        {
+                            "0": 4,
+                            "1": "D",
+                            "2": "salesman"
+                        },
+                        {
+                            "0": 5,
+                            "1": "E",
+                            "2": "engineer"
+                        },
+                        {
+                            "0": 6,
+                            "1": "F",
+                            "2": "marketing"
+                        },
+                        {
+                            "0": 7,
+                            "1": "G",
+                            "2": "salesman"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "name",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "role",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 7 records retrieved in 0.561ms"
+                    },
+                    "totalRowCount": 7,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 7,
+                    "sql": "\n\n# UNION\n\n# List all the employee in the company --> UNION\nSELECT * FROM DEPARTMENT1 \nUNION\nSELECT * FROM DEPARTMENT2",
+                    "updatable": false,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "729e06c6-eb5e-4899-ef51-0d2476f6bcd0",
+                    "resultId": "0d7a826e-07be-46b7-ed93-f8e035112062",
+                    "rows": [
+                        {
+                            "0": 3,
+                            "1": "C",
+                            "2": "manager"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "name",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "role",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.54ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 8,
+                    "sql": "\n\n# List all the employee who works for the both department --> INTERSECTION\nSELECT DEPARTMENT1.* FROM DEPARTMENT1\nINNER JOIN \nDEPARTMENT2 USING(id)",
+                    "updatable": false,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "729e06c6-eb5e-4899-ef51-0d2476f6bcd0",
+                    "resultId": "7a25df8f-7df2-42bb-bd07-5c7da960f05a",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "A",
+                            "2": "engineer"
+                        },
+                        {
+                            "0": 2,
+                            "1": "B",
+                            "2": "salesman"
+                        },
+                        {
+                            "0": 4,
+                            "1": "D",
+                            "2": "salesman"
+                        },
+                        {
+                            "0": 5,
+                            "1": "E",
+                            "2": "engineer"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "name",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "role",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 4 records retrieved in 0.756ms"
+                    },
+                    "totalRowCount": 4,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 9,
+                    "sql": "\n\n# List Out All The Employee Who Working On Department 1 But Not In Department 2 --> MINUS\nSELECT DEPARTMENT1.* FROM DEPARTMENT1\nLEFT JOIN \nDEPARTMENT2 USING(id) WHERE DEPARTMENT2.id IS NULL",
+                    "updatable": false,
+                    "fullTableName": ""
+                }
+            ]
+        },
+        {
+            "state": {
+                "start": 49,
+                "end": 49,
+                "language": "mysql",
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 0
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}

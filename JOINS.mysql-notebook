@@ -1,0 +1,399 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "SHOW DATABASES;\nCREATE DATABASE SQL_PRACTISE;\nUSE SQL_PRACTISE;\n# DROP DATABASE IF EXISTS SQL_PRACTISE;\n\nCREATE TABLE EMPLOYEE(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    fname VARCHAR(50),\n    lname VARCHAR(50),\n    age INT,\n    email VARCHAR(50) NOT NULL UNIQUE,\n    phoneno VARCHAR(15),\n    city VARCHAR(15)\n);\n\nCREATE TABLE CLIENT(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    fname VARCHAR(50),\n    lname VARCHAR(50),\n    age INT,\n    email VARCHAR(50) NOT NULL UNIQUE,\n    phoneno VARCHAR(15),\n    city VARCHAR(15),\n    employee_id INT UNSIGNED,\n    FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\nCREATE TABLE PROJECT(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    employee_id INT UNSIGNED,\n    name VARCHAR(15),\n    start_date DATE,\n    clientId INT UNSIGNED,\n    FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\n\nINSERT INTO EMPLOYEE(id, fname, lname, age, email, phoneno, city) VALUES\n(1,'Aman', 'Proto', 32, 'aman@gmail.com', 898, 'Delhi'),\n(2, 'Yagya', 'Narayan', 144, 'yagya@gmail.com', 222, 'Palam'), \n(3, 'Rahul', 'BD', 22, 'rahul@gmail.com', 444, 'Kolkata'),\n(4, 'Jatin', 'Hermit', 31, 'jatin@gmail.com', 666, 'Raipur'),\n(5, 'PK', 'Pandey', 21, 'pk@gmail.com', 555, 'Jaipur');\nSELECT * FROM EMPLOYEE;\n\nINSERT INTO CLIENT(id , fname, lname, age, email, phoneno, city, employee_id) VALUES\n('1', 'Mac', 'Rogers', '47' , 'mac@hotmail.com', '333', 'Kolkata', '3'),\n('2', 'Max', 'Poirier', '27' , 'max@gmail.com', '222', 'Kolkata', '3'),\n('3', 'Peter', 'Jain', '24' , 'peter@abc.com', '111', 'Delhil', '1'),\n('4', 'Sushant', 'Aggarwal', '23' , 'sushant@yahoo.com', '45454', 'Hyderabad', '5'),\n('5', 'Pratap', 'Singh', '36' , 'p@xyz.com', '77767', 'Mumbai', '2');\nSELECT * FROM CLIENT;\n\nINSERT INTO PROJECT(id, employee_id, name, start_date, clientId) VALUES\n('1', 1, 'A', '2021-04-21', 3),\n('2', 2, 'B', '2021-03-12', 1),\n('3', 3, 'C', '2021-01-16', 5),\n('4', 3, 'D', '2021-04-27', 2),\n('5', 5, 'E', '2021-05-01', 4);\nSELECT * FROM PROJECT;\n\n# INNER JOIN \n# ENLIST ALL EMPLOYEE WHICH PROJECT THEY ARE WORKING ON\nSELECT e.*, p.* FROM EMPLOYEE AS e INNER JOIN PROJECT AS p ON e.id = p.employee_id;\n\nselect e.id, e.fname, e.lname, p.id, p.name from employee as e,\nproject as p WHERE e.id = p.employee_id;\n\n# Fetch out all the employee Ip's and their contact detail who have been working\n# from Jaipur with the clients name working in Hyderabad.\nSELECT e.id, e.email, e.phoneno, c.fname, c.lname FROM Employee as e\nINNER JOIN CLIENT AS c ON e.id = c.employee_id WHERE e.city = 'Jaipur' AND c.city = 'Hyderabad' ;\n\n# LEFT JOIN\n# Fetch out each project allocated to each employee.\nselect * from Employee as e\nLEFT JOIN PROJECT as p ON e.id = p.employee_id;\n\n# RIGHT JOIN\n# List out all the projects along with the employee's name and their respective allocated email ID. \nselect p.id, p.name, e.fname, e.lname, e.email FROM Employee as e\nRIGHT JOIN PROJECT as p ON e.id = p.employee_id;\n\n\n# CROSS JOIN\n# List out all the combinations possible for the employee's name and projects that can exist.\nSELECT e.fname, e.lname, p.id, p.name from Employee as e\nCROSS JOIN Project as p;\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": true,
+                "selectionStart": {
+                    "lineNumber": 1,
+                    "column": 1
+                },
+                "position": {
+                    "lineNumber": 93,
+                    "column": 1
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 1,
+                "column": 1
+            },
+            "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 93,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "d02ba595-ac55-4aa8-f988-5ee58064f150"
+                    ]
+                },
+                "currentHeight": 217.96875,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 15
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 15,
+                            "length": 30
+                        },
+                        "contentStart": 16,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 45,
+                            "length": 18
+                        },
+                        "contentStart": 46,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 63,
+                            "length": 268
+                        },
+                        "contentStart": 105,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 331,
+                            "length": 457
+                        },
+                        "contentStart": 333,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 788,
+                            "length": 383
+                        },
+                        "contentStart": 790,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1171,
+                            "length": 373
+                        },
+                        "contentStart": 1174,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1544,
+                            "length": 24
+                        },
+                        "contentStart": 1545,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1568,
+                            "length": 456
+                        },
+                        "contentStart": 1570,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2024,
+                            "length": 22
+                        },
+                        "contentStart": 2025,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2046,
+                            "length": 233
+                        },
+                        "contentStart": 2048,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2279,
+                            "length": 23
+                        },
+                        "contentStart": 2280,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2302,
+                            "length": 155
+                        },
+                        "contentStart": 2374,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2457,
+                            "length": 106
+                        },
+                        "contentStart": 2459,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2563,
+                            "length": 307
+                        },
+                        "contentStart": 2704,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2870,
+                            "length": 142
+                        },
+                        "contentStart": 2937,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3012,
+                            "length": 230
+                        },
+                        "contentStart": 3128,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3242,
+                            "length": 191
+                        },
+                        "contentStart": 3352,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3433,
+                            "length": 1
+                        },
+                        "contentStart": 3432,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "0a9d2ac5-7a8e-4f06-cb0c-4d549784137a",
+                    "resultId": "d02ba595-ac55-4aa8-f988-5ee58064f150",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "Aman",
+                            "2": "Proto",
+                            "3": 1,
+                            "4": "A"
+                        },
+                        {
+                            "0": 2,
+                            "1": "Yagya",
+                            "2": "Narayan",
+                            "3": 2,
+                            "4": "B"
+                        },
+                        {
+                            "0": 3,
+                            "1": "Rahul",
+                            "2": "BD",
+                            "3": 3,
+                            "4": "C"
+                        },
+                        {
+                            "0": 3,
+                            "1": "Rahul",
+                            "2": "BD",
+                            "3": 4,
+                            "4": "D"
+                        },
+                        {
+                            "0": 5,
+                            "1": "PK",
+                            "2": "Pandey",
+                            "3": 5,
+                            "4": "E"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "id",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "name",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 5 records retrieved in 0.788ms"
+                    },
+                    "totalRowCount": 5,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "\n\nselect e.id, e.fname, e.lname, p.id, p.name from employee as e,\nproject as p WHERE e.id = p.employee_id;",
+                    "updatable": false,
+                    "fullTableName": ""
+                }
+            ]
+        },
+        {
+            "state": {
+                "start": 94,
+                "end": 94,
+                "language": "mysql",
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 0
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}

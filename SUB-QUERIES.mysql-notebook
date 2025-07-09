@@ -1,0 +1,1988 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "SHOW DATABASES;\nCREATE DATABASE SQL_PRACTISE;\nUSE SQL_PRACTISE;\n# DROP DATABASE IF EXISTS SQL_PRACTISE;\n\nCREATE TABLE EMPLOYEE(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    fname VARCHAR(50),\n    lname VARCHAR(50),\n    age INT,\n    email VARCHAR(50) NOT NULL UNIQUE,\n    phoneno VARCHAR(15),\n    city VARCHAR(15)\n);\n\nCREATE TABLE CLIENT(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    fname VARCHAR(50),\n    lname VARCHAR(50),\n    age INT,\n    email VARCHAR(50) NOT NULL UNIQUE,\n    phoneno VARCHAR(15),\n    city VARCHAR(15),\n    employee_id INT UNSIGNED,\n    FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\nCREATE TABLE PROJECT(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    employee_id INT UNSIGNED,\n    name VARCHAR(15),\n    start_date DATE,\n    clientId INT UNSIGNED,\n    FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\n\nINSERT INTO EMPLOYEE(id, fname, lname, age, email, phoneno, city) VALUES\n(1,'Aman', 'Proto', 32, 'aman@gmail.com', 898, 'Delhi'),\n(2, 'Yagya', 'Narayan', 44, 'yagya@gmail.com', 222, 'Palam'), \n(3, 'Rahul', 'BD', 22, 'rahul@gmail.com', 444, 'Kolkata'),\n(4, 'Jatin', 'Hermit', 31, 'jatin@gmail.com', 666, 'Raipur'),\n(5, 'PK', 'Pandey', 21, 'pk@gmail.com', 555, 'Jaipur');\nSELECT * FROM EMPLOYEE;\n\nINSERT INTO CLIENT(id , fname, lname, age, email, phoneno, city, employee_id) VALUES\n('1', 'Mac', 'Rogers', '47' , 'mac@hotmail.com', '333', 'Kolkata', '3'),\n('2', 'Max', 'Poirier', '27' , 'max@gmail.com', '222', 'Kolkata', '3'),\n('3', 'Peter', 'Jain', '24' , 'peter@abc.com', '111', 'Delhil', '1'),\n('4', 'Sushant', 'Aggarwal', '23' , 'sushant@yahoo.com', '45454', 'Hyderabad', '5'),\n('5', 'Pratap', 'Singh', '36' , 'p@xyz.com', '77767', 'Mumbai', '2');\nSELECT * FROM CLIENT;\n\nINSERT INTO PROJECT(id, employee_id, name, start_date, clientId) VALUES\n('1', 1, 'A', '2021-04-21', 3),\n('2', 2, 'B', '2021-03-12', 1),\n('3', 3, 'C', '2021-01-16', 5),\n('4', 3, 'D', '2021-04-27', 2),\n('5', 5, 'E', '2021-05-01', 4);\nSELECT * FROM PROJECT;\n\n# SUB QUERIES -> WHERE CLAUSE SAME TABLE Employee age > 30\nSELECT * FROM EMPLOYEE WHERE AGE IN (\n    SELECT age FROM EMPLOYEE WHERE age > 30\n);\nSELECT age FROM EMPLOYEE WHERE age > 30;\n\n# SUB QUERIES -> WHERE CLAUSE SAME DIFFERENT Employee DETAIL WHO WORKING MORE THAN ONE PROJECT\nSELECT * FROM EMPLOYEE WHERE id IN (\n    SELECT employee_id FROM PROJECT GROUP BY employee_id HAVING COUNT(employee_id) > 1\n);\nSELECT employee_id FROM PROJECT GROUP BY employee_id HAVING COUNT(employee_id) > 1;\n\n# SINGLE VALUE SUB QUERY\n# avg(age) < age\nSELECT * FROM EMPLOYEE WHERE age > (\n    SELECT AVG(age) FROM EMPLOYEE\n);\nSELECT AVG(age) FROM EMPLOYEE;\n\n# FROM CLAUSE - DERIVED TABLE\n# SELECT MAX(AGE) PERSON WHOSE FIRST NAME HAS 'a' \nSELECT MAX(age) FROM (\n    SELECT age FROM EMPLOYEE WHERE fname LIKE '%a%'\n) AS TEMP;\nSELECT * FROM EMPLOYEE WHERE fname LIKE '%a%'; # - DERIVED TABLE\n\n# CORELATED SUB QURIES \n# FIND 3rd Oldest Employee\nSELECT * FROM EMPLOYEE AS e1 WHERE 3 = (\n    SELECT COUNT(e2.age) FROM EMPLOYEE AS e2 WHERE e2.age >= e1.age\n);\n# (32, 44, 22, 21, 31) -> 32 = 2, 44 = 1, 22 = 4, 31 = 3, 21 = 5\n# 32 ---> 32 >= 32, 44 >= 32\n# 44 ---> 44 >= 44\n# 22 ---> 32 >= 22, 44 >= 22,  22 >= 22, 31 >= 22\n# 31 ---> 32 >= 31, 44 >= 31, 31 >= 31\n# 21 ---> 32 >= 21, 44 >= 21,  22 >= 21, 21 >= 21, 31 >= 21\n\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 104,
+                    "column": 1
+                },
+                "position": {
+                    "lineNumber": 104,
+                    "column": 1
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 84,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -16
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 104,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "aa902cc8-3d27-46a5-b74d-a087cf114bbd",
+                        "d6c9ff82-3107-4812-8e1f-7465d343ec63",
+                        "ac419b74-fee2-495c-ef28-d9817f32cf03",
+                        "2e09cec8-c224-4094-db02-48689618e6dd",
+                        "4af0d4a6-5460-4ba4-dc88-677ddd7dcf23",
+                        "0b4ea950-5599-430c-f632-7d8ccfce5f4c",
+                        "72d97c32-0107-4c40-895c-42f973da9e49",
+                        "9633abb3-d44f-4095-a91d-a7f2b0e144ac",
+                        "ba47a8d2-842e-4c43-80f3-8edaa10e3b02",
+                        "2a9aaf86-7dc7-49a0-bece-6462d87c37b8",
+                        "01eb57ea-d33a-4536-f245-f7137384968f",
+                        "5cbb4caf-b507-46e1-8b1c-586650e3554d",
+                        "c1158d73-061e-4515-e907-80696316a6f9"
+                    ]
+                },
+                "currentHeight": 88.8125,
+                "currentSet": 10,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 15
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 15,
+                            "length": 30
+                        },
+                        "contentStart": 16,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 45,
+                            "length": 18
+                        },
+                        "contentStart": 46,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 63,
+                            "length": 268
+                        },
+                        "contentStart": 105,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 331,
+                            "length": 457
+                        },
+                        "contentStart": 333,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 788,
+                            "length": 383
+                        },
+                        "contentStart": 790,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1171,
+                            "length": 372
+                        },
+                        "contentStart": 1174,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1543,
+                            "length": 24
+                        },
+                        "contentStart": 1544,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1567,
+                            "length": 456
+                        },
+                        "contentStart": 1569,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2023,
+                            "length": 22
+                        },
+                        "contentStart": 2024,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2045,
+                            "length": 233
+                        },
+                        "contentStart": 2047,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2278,
+                            "length": 23
+                        },
+                        "contentStart": 2279,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2301,
+                            "length": 145
+                        },
+                        "contentStart": 2362,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2446,
+                            "length": 41
+                        },
+                        "contentStart": 2447,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2487,
+                            "length": 223
+                        },
+                        "contentStart": 2584,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2710,
+                            "length": 84
+                        },
+                        "contentStart": 2711,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2794,
+                            "length": 117
+                        },
+                        "contentStart": 2838,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2911,
+                            "length": 31
+                        },
+                        "contentStart": 2912,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2942,
+                            "length": 168
+                        },
+                        "contentStart": 3025,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3110,
+                            "length": 47
+                        },
+                        "contentStart": 3111,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3157,
+                            "length": 182
+                        },
+                        "contentStart": 3228,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3339,
+                            "length": 264
+                        },
+                        "contentStart": 3338,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "aa902cc8-3d27-46a5-b74d-a087cf114bbd",
+                    "rows": [
+                        {
+                            "0": "alankarclothes"
+                        },
+                        {
+                            "0": "AMS"
+                        },
+                        {
+                            "0": "chat_app_db"
+                        },
+                        {
+                            "0": "dreamshop"
+                        },
+                        {
+                            "0": "exam"
+                        },
+                        {
+                            "0": "ezsave"
+                        },
+                        {
+                            "0": "food-management-system"
+                        },
+                        {
+                            "0": "geoagroeng"
+                        },
+                        {
+                            "0": "hibernate"
+                        },
+                        {
+                            "0": "iKrishi"
+                        },
+                        {
+                            "0": "information_schema"
+                        },
+                        {
+                            "0": "JDBC"
+                        },
+                        {
+                            "0": "Learn"
+                        },
+                        {
+                            "0": "library-spring"
+                        },
+                        {
+                            "0": "mysql"
+                        },
+                        {
+                            "0": "performance_schema"
+                        },
+                        {
+                            "0": "scm"
+                        },
+                        {
+                            "0": "spring-learning"
+                        },
+                        {
+                            "0": "springsecurity"
+                        },
+                        {
+                            "0": "Sql_Learning"
+                        },
+                        {
+                            "0": "SQL_PRACTISE"
+                        },
+                        {
+                            "0": "sys"
+                        },
+                        {
+                            "0": "torarb"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Database",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 23 records retrieved in 2.452ms"
+                    },
+                    "totalRowCount": 23,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "SHOW DATABASES",
+                    "updatable": false
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "d6c9ff82-3107-4812-8e1f-7465d343ec63",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "Aman",
+                            "2": "Proto",
+                            "3": 32,
+                            "4": "aman@gmail.com",
+                            "5": "898",
+                            "6": "Delhi"
+                        },
+                        {
+                            "0": 2,
+                            "1": "Yagya",
+                            "2": "Narayan",
+                            "3": 44,
+                            "4": "yagya@gmail.com",
+                            "5": "222",
+                            "6": "Palam"
+                        },
+                        {
+                            "0": 3,
+                            "1": "Rahul",
+                            "2": "BD",
+                            "3": 22,
+                            "4": "rahul@gmail.com",
+                            "5": "444",
+                            "6": "Kolkata"
+                        },
+                        {
+                            "0": 4,
+                            "1": "Jatin",
+                            "2": "Hermit",
+                            "3": 31,
+                            "4": "jatin@gmail.com",
+                            "5": "666",
+                            "6": "Raipur"
+                        },
+                        {
+                            "0": 5,
+                            "1": "PK",
+                            "2": "Pandey",
+                            "3": 21,
+                            "4": "pk@gmail.com",
+                            "5": "555",
+                            "6": "Jaipur"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "age",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "email",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "phoneno",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "city",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 5 records retrieved in 0.468ms"
+                    },
+                    "totalRowCount": 5,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 7,
+                    "sql": "\nSELECT * FROM EMPLOYEE",
+                    "updatable": true,
+                    "fullTableName": "EMPLOYEE"
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "ac419b74-fee2-495c-ef28-d9817f32cf03",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "Mac",
+                            "2": "Rogers",
+                            "3": 47,
+                            "4": "mac@hotmail.com",
+                            "5": "333",
+                            "6": "Kolkata",
+                            "7": 3
+                        },
+                        {
+                            "0": 2,
+                            "1": "Max",
+                            "2": "Poirier",
+                            "3": 27,
+                            "4": "max@gmail.com",
+                            "5": "222",
+                            "6": "Kolkata",
+                            "7": 3
+                        },
+                        {
+                            "0": 3,
+                            "1": "Peter",
+                            "2": "Jain",
+                            "3": 24,
+                            "4": "peter@abc.com",
+                            "5": "111",
+                            "6": "Delhil",
+                            "7": 1
+                        },
+                        {
+                            "0": 4,
+                            "1": "Sushant",
+                            "2": "Aggarwal",
+                            "3": 23,
+                            "4": "sushant@yahoo.com",
+                            "5": "45454",
+                            "6": "Hyderabad",
+                            "7": 5
+                        },
+                        {
+                            "0": 5,
+                            "1": "Pratap",
+                            "2": "Singh",
+                            "3": 36,
+                            "4": "p@xyz.com",
+                            "5": "77767",
+                            "6": "Mumbai",
+                            "7": 2
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "age",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "email",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "phoneno",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "city",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "employee_id",
+                            "field": "7",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 5 records retrieved in 0.273ms"
+                    },
+                    "totalRowCount": 5,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 9,
+                    "sql": "\nSELECT * FROM CLIENT",
+                    "updatable": true,
+                    "fullTableName": "CLIENT"
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "2e09cec8-c224-4094-db02-48689618e6dd",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": 1,
+                            "2": "A",
+                            "3": "2021-04-21",
+                            "4": 3
+                        },
+                        {
+                            "0": 2,
+                            "1": 2,
+                            "2": "B",
+                            "3": "2021-03-12",
+                            "4": 1
+                        },
+                        {
+                            "0": 3,
+                            "1": 3,
+                            "2": "C",
+                            "3": "2021-01-16",
+                            "4": 5
+                        },
+                        {
+                            "0": 4,
+                            "1": 3,
+                            "2": "D",
+                            "3": "2021-04-27",
+                            "4": 2
+                        },
+                        {
+                            "0": 5,
+                            "1": 5,
+                            "2": "E",
+                            "3": "2021-05-01",
+                            "4": 4
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "employee_id",
+                            "field": "1",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "name",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "start_date",
+                            "field": "3",
+                            "dataType": {
+                                "type": 27,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "clientId",
+                            "field": "4",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 5 records retrieved in 0.422ms"
+                    },
+                    "totalRowCount": 5,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 11,
+                    "sql": "\nSELECT * FROM PROJECT",
+                    "updatable": true,
+                    "fullTableName": "PROJECT"
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "4af0d4a6-5460-4ba4-dc88-677ddd7dcf23",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "Aman",
+                            "2": "Proto",
+                            "3": 32,
+                            "4": "aman@gmail.com",
+                            "5": "898",
+                            "6": "Delhi"
+                        },
+                        {
+                            "0": 2,
+                            "1": "Yagya",
+                            "2": "Narayan",
+                            "3": 44,
+                            "4": "yagya@gmail.com",
+                            "5": "222",
+                            "6": "Palam"
+                        },
+                        {
+                            "0": 4,
+                            "1": "Jatin",
+                            "2": "Hermit",
+                            "3": 31,
+                            "4": "jatin@gmail.com",
+                            "5": "666",
+                            "6": "Raipur"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "age",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "email",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "phoneno",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "city",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 3 records retrieved in 0.863ms"
+                    },
+                    "totalRowCount": 3,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 12,
+                    "sql": "\n\n# SUB QUERIES -> WHERE CLAUSE SAME TABLE Employee age > 30\nSELECT * FROM EMPLOYEE WHERE AGE IN (\n    SELECT age FROM EMPLOYEE WHERE age > 30\n)",
+                    "updatable": true,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "0b4ea950-5599-430c-f632-7d8ccfce5f4c",
+                    "rows": [
+                        {
+                            "0": 32
+                        },
+                        {
+                            "0": 44
+                        },
+                        {
+                            "0": 31
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "age",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 3 records retrieved in 0.512ms"
+                    },
+                    "totalRowCount": 3,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 13,
+                    "sql": "\nSELECT age FROM EMPLOYEE WHERE age > 30",
+                    "updatable": false,
+                    "fullTableName": "EMPLOYEE"
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "72d97c32-0107-4c40-895c-42f973da9e49",
+                    "rows": [
+                        {
+                            "0": 3,
+                            "1": "Rahul",
+                            "2": "BD",
+                            "3": 22,
+                            "4": "rahul@gmail.com",
+                            "5": "444",
+                            "6": "Kolkata"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "age",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "email",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "phoneno",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "city",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.858ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 14,
+                    "sql": "\n\n# SUB QUERIES -> WHERE CLAUSE SAME DIFFERENT Employee DETAIL WHO WORKING MORE THAN ONE PROJECT\nSELECT * FROM EMPLOYEE WHERE id IN (\n    SELECT employee_id FROM PROJECT GROUP BY employee_id HAVING COUNT(employee_id) > 1\n)",
+                    "updatable": true,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "9633abb3-d44f-4095-a91d-a7f2b0e144ac",
+                    "rows": [
+                        {
+                            "0": 3
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "employee_id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.592ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 15,
+                    "sql": "\nSELECT employee_id FROM PROJECT GROUP BY employee_id HAVING COUNT(employee_id) > 1",
+                    "updatable": false,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "ba47a8d2-842e-4c43-80f3-8edaa10e3b02",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "Aman",
+                            "2": "Proto",
+                            "3": 32,
+                            "4": "aman@gmail.com",
+                            "5": "898",
+                            "6": "Delhi"
+                        },
+                        {
+                            "0": 2,
+                            "1": "Yagya",
+                            "2": "Narayan",
+                            "3": 44,
+                            "4": "yagya@gmail.com",
+                            "5": "222",
+                            "6": "Palam"
+                        },
+                        {
+                            "0": 4,
+                            "1": "Jatin",
+                            "2": "Hermit",
+                            "3": 31,
+                            "4": "jatin@gmail.com",
+                            "5": "666",
+                            "6": "Raipur"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "age",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "email",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "phoneno",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "city",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 3 records retrieved in 0.527ms"
+                    },
+                    "totalRowCount": 3,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 16,
+                    "sql": "\n\n# SINGLE VALUE SUB QUERY\n# avg(age) < age\nSELECT * FROM EMPLOYEE WHERE age > (\n    SELECT AVG(age) FROM EMPLOYEE\n)",
+                    "updatable": true,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "2a9aaf86-7dc7-49a0-bece-6462d87c37b8",
+                    "rows": [
+                        {
+                            "0": "30.0000"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "AVG(age)",
+                            "field": "0",
+                            "dataType": {
+                                "type": 10,
+                                "flags": [
+                                    "UNSIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 65,
+                                "numericScale": 30,
+                                "parameterFormatType": "TwoOrOneOrZero",
+                                "synonyms": [
+                                    "FIXED",
+                                    "NUMERIC",
+                                    "DEC"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.421ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 17,
+                    "sql": "\nSELECT AVG(age) FROM EMPLOYEE",
+                    "updatable": false,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "01eb57ea-d33a-4536-f245-f7137384968f",
+                    "rows": [
+                        {
+                            "0": 44
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "MAX(age)",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.593ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 18,
+                    "sql": "\n\n# FROM CLAUSE - DERIVED TABLE\n# SELECT MAX(AGE) PERSON WHOSE FIRST NAME HAS 'a' \nSELECT MAX(age) FROM (\n    SELECT age FROM EMPLOYEE WHERE fname LIKE '%a%'\n) AS TEMP",
+                    "updatable": true,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "5cbb4caf-b507-46e1-8b1c-586650e3554d",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "Aman",
+                            "2": "Proto",
+                            "3": 32,
+                            "4": "aman@gmail.com",
+                            "5": "898",
+                            "6": "Delhi"
+                        },
+                        {
+                            "0": 2,
+                            "1": "Yagya",
+                            "2": "Narayan",
+                            "3": 44,
+                            "4": "yagya@gmail.com",
+                            "5": "222",
+                            "6": "Palam"
+                        },
+                        {
+                            "0": 3,
+                            "1": "Rahul",
+                            "2": "BD",
+                            "3": 22,
+                            "4": "rahul@gmail.com",
+                            "5": "444",
+                            "6": "Kolkata"
+                        },
+                        {
+                            "0": 4,
+                            "1": "Jatin",
+                            "2": "Hermit",
+                            "3": 31,
+                            "4": "jatin@gmail.com",
+                            "5": "666",
+                            "6": "Raipur"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "age",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "email",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "phoneno",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "city",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 4 records retrieved in 0.467ms"
+                    },
+                    "totalRowCount": 4,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 19,
+                    "sql": "\nSELECT * FROM EMPLOYEE WHERE fname LIKE '%a%'",
+                    "updatable": true,
+                    "fullTableName": "EMPLOYEE"
+                },
+                {
+                    "tabId": "84d7a7ec-030f-47ac-e0aa-2c72bd5642f4",
+                    "resultId": "c1158d73-061e-4515-e907-80696316a6f9",
+                    "rows": [
+                        {
+                            "0": 4,
+                            "1": "Jatin",
+                            "2": "Hermit",
+                            "3": 31,
+                            "4": "jatin@gmail.com",
+                            "5": "666",
+                            "6": "Raipur"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "fname",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "lname",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "age",
+                            "field": "3",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "email",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "phoneno",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "city",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.836ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 20,
+                    "sql": " # - DERIVED TABLE\n\n# CORELATED SUB QURIES \n# FIND 3rd Oldest Employee\nSELECT * FROM EMPLOYEE AS e1 WHERE 3 = (\n    SELECT COUNT(e2.age) FROM EMPLOYEE AS e2 WHERE e2.age >= e1.age\n)",
+                    "updatable": true,
+                    "fullTableName": ""
+                }
+            ]
+        },
+        {
+            "state": {
+                "start": 105,
+                "end": 105,
+                "language": "mysql",
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 0
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}

@@ -1,0 +1,301 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "USE SQL_PRACTISE;\n\n# DATA MANIPULATION LANGUAGE (DML)\n\n# 1.INSERT | SINGLE | MULTIPLE ROW ADD\nINSERT INTO ACCOUNT (id, name, balance) VALUES (5, 'Akash Bhisikar', 20001);\nINSERT INTO ACCOUNT (id, name, balance) VALUES \n    (1, 'Chirag Bhisikar', 30001),\n    (2, 'Haresh Bhisikar', 40000),\n    (3, 'Ronak Bhisikar', 50000);\nINSERT INTO ACCOUNT VALUES (4, 'Aman Bhisikar', 60001);\nSELECT * FROM ACCOUNT;\n\n# 2. UPDATE\nUPDATE ACCOUNT SET name = 'Minesh Bhisikar', balance = 80000 WHERE id = 3;\nUPDATE ACCOUNT SET balance = 80000;\n\n# 3. DELETE\nDELETE FROM ACCOUNT WHERE id = 5; # DELETE ROWS WHERE id = 5\nDELETE FROM ACCOUNT; # DELETE ALL ROWS OF TABLE\n\n# DELETE ON DELETE CASCADE | ON DELETE SET NULL\nDROP TABLE CUSTOMER;\nDROP TABLE ORDER_DETAILS;\n\nCREATE TABLE CUSTOMER(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(50),\n    address VARCHAR(50),\n    gender VARCHAR(2),\n    city VARCHAR(15),\n    pincode INTEGER\n);\n\nCREATE TABLE ORDER_DETAILS(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    delivery_date DATETIME,\n    customer_id INT UNSIGNED,\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\nINSERT INTO CUSTOMER VALUE(1,'A', 'Ahmedabad','M', 'Ahmedabad', 382415);\nINSERT INTO ORDER_DETAILS VALUE(1,'2022-04-22 10:34:23',1);\n\nDELETE FROM CUSTOMER WHERE id = 1;\nSELECT * FROM ORDER_DETAILS;\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 47,
+                    "column": 35
+                },
+                "position": {
+                    "lineNumber": 47,
+                    "column": 35
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 29,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -16
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 50,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "16e1f9c3-a895-4343-fb61-72eeb10e084c"
+                    ]
+                },
+                "currentHeight": 88.8125,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 17
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 17,
+                            "length": 153
+                        },
+                        "contentStart": 94,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 170,
+                            "length": 152
+                        },
+                        "contentStart": 171,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 322,
+                            "length": 56
+                        },
+                        "contentStart": 323,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 378,
+                            "length": 23
+                        },
+                        "contentStart": 379,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 401,
+                            "length": 88
+                        },
+                        "contentStart": 415,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 489,
+                            "length": 36
+                        },
+                        "contentStart": 490,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 525,
+                            "length": 47
+                        },
+                        "contentStart": 540,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 572,
+                            "length": 48
+                        },
+                        "contentStart": 601,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 620,
+                            "length": 97
+                        },
+                        "contentStart": 698,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 717,
+                            "length": 26
+                        },
+                        "contentStart": 719,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 743,
+                            "length": 196
+                        },
+                        "contentStart": 745,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 939,
+                            "length": 347
+                        },
+                        "contentStart": 941,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1286,
+                            "length": 74
+                        },
+                        "contentStart": 1288,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1360,
+                            "length": 60
+                        },
+                        "contentStart": 1361,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1420,
+                            "length": 36
+                        },
+                        "contentStart": 1423,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1456,
+                            "length": 29
+                        },
+                        "contentStart": 1457,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1485,
+                            "length": 2
+                        },
+                        "contentStart": 1484,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "2e9737fd-a390-470d-8a8c-aab02226b4e5",
+                    "resultId": "16e1f9c3-a895-4343-fb61-72eeb10e084c",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "2022-04-22 10:34:23",
+                            "2": null
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "delivery_date",
+                            "field": "1",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "customer_id",
+                            "field": "2",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.53ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "\nSELECT * FROM ORDER_DETAILS;",
+                    "updatable": true,
+                    "fullTableName": "ORDER_DETAILS"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,256 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "SHOW DATABASES;\nCREATE DATABASE SQL_PRACTISE;\nUSE SQL_PRACTISE;\n# DROP DATABASE IF EXISTS SQL_PRACTISE;\n\nCREATE TABLE EMPLOYEE(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    fname VARCHAR(50),\n    lname VARCHAR(50),\n    age INT,\n    email VARCHAR(50) NOT NULL UNIQUE,\n    phoneno VARCHAR(15),\n    city VARCHAR(15)\n);\n\nCREATE TABLE CLIENT(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    fname VARCHAR(50),\n    lname VARCHAR(50),\n    age INT,\n    email VARCHAR(50) NOT NULL UNIQUE,\n    phoneno VARCHAR(15),\n    city VARCHAR(15),\n    employee_id INT UNSIGNED,\n    FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\nCREATE TABLE PROJECT(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    employee_id INT UNSIGNED,\n    name VARCHAR(15),\n    start_date DATE,\n    clientId INT UNSIGNED,\n    FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\n\nINSERT INTO EMPLOYEE(id, fname, lname, age, email, phoneno, city) VALUES\n(1,'Aman', 'Proto', 32, 'aman@gmail.com', 898, 'Delhi'),\n(2, 'Yagya', 'Narayan', 144, 'yagya@gmail.com', 222, 'Palam'), \n(3, 'Rahul', 'BD', 22, 'rahul@gmail.com', 444, 'Kolkata'),\n(4, 'Jatin', 'Hermit', 31, 'jatin@gmail.com', 666, 'Raipur'),\n(5, 'PK', 'Pandey', 21, 'pk@gmail.com', 555, 'Jaipur');\nSELECT * FROM EMPLOYEE;\n\nINSERT INTO CLIENT(id , fname, lname, age, email, phoneno, city, employee_id) VALUES\n('1', 'Mac', 'Rogers', '47' , 'mac@hotmail.com', '333', 'Kolkata', '3'),\n('2', 'Max', 'Poirier', '27' , 'max@gmail.com', '222', 'Kolkata', '3'),\n('3', 'Peter', 'Jain', '24' , 'peter@abc.com', '111', 'Delhil', '1'),\n('4', 'Sushant', 'Aggarwal', '23' , 'sushant@yahoo.com', '45454', 'Hyderabad', '5'),\n('5', 'Pratap', 'Singh', '36' , 'p@xyz.com', '77767', 'Mumbai', '2');\nSELECT * FROM CLIENT;\n\nINSERT INTO PROJECT(id, employee_id, name, start_date, clientId) VALUES\n('1', 1, 'A', '2021-04-21', 3),\n('2', 2, 'B', '2021-03-12', 1),\n('3', 3, 'C', '2021-01-16', 5),\n('4', 3, 'D', '2021-04-27', 2),\n('5', 5, 'E', '2021-05-01', 4);\nSELECT * FROM PROJECT;\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 64,
+                    "column": 23
+                },
+                "position": {
+                    "lineNumber": 64,
+                    "column": 23
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 44,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -16
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 65,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "f3440566-4d30-4d46-a241-2b67c0c2eea1"
+                    ]
+                },
+                "currentHeight": 88.8125,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 15
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 15,
+                            "length": 30
+                        },
+                        "contentStart": 16,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 45,
+                            "length": 18
+                        },
+                        "contentStart": 46,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 63,
+                            "length": 268
+                        },
+                        "contentStart": 105,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 331,
+                            "length": 457
+                        },
+                        "contentStart": 333,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 788,
+                            "length": 383
+                        },
+                        "contentStart": 790,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1171,
+                            "length": 373
+                        },
+                        "contentStart": 1174,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1544,
+                            "length": 24
+                        },
+                        "contentStart": 1545,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1568,
+                            "length": 456
+                        },
+                        "contentStart": 1570,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2024,
+                            "length": 22
+                        },
+                        "contentStart": 2025,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2046,
+                            "length": 233
+                        },
+                        "contentStart": 2048,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2279,
+                            "length": 23
+                        },
+                        "contentStart": 2280,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2302,
+                            "length": 1
+                        },
+                        "contentStart": 2301,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "0378f4ce-1524-4726-8636-585e8c71a24a",
+                    "resultId": "f3440566-4d30-4d46-a241-2b67c0c2eea1",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "2022-04-22 10:34:23",
+                            "2": null
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "delivery_date",
+                            "field": "1",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "customer_id",
+                            "field": "2",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.53ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "\nSELECT * FROM ORDER_DETAILS;",
+                    "updatable": true,
+                    "fullTableName": "ORDER_DETAILS"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,715 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "SHOW DATABASES;\nCREATE DATABASE SQL_PRACTISE;\nUSE SQL_PRACTISE;\n# DROP DATABASE IF EXISTS SQL_PRACTISE;\n\n# SHOW TABLES;\n# DROP TABLE BONUS;\n\nCREATE TABLE WORKER(\n    worker_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    first_name VARCHAR(50),\n    last_name VARCHAR(50),\n    date_of_birth DATE,\n    salary INT(15),\n    join_date DATETIME,\n    department VARCHAR(50)\n);\n\nINSERT INTO WORKER (worker_id, first_name, last_name, date_of_birth, salary, join_date, department) VALUES\n(001, 'Monika' , 'Arora', '2005-08-22' ,100000, '14-02-20 09.00.00', 'HR'),\n(002, 'Niharika', 'Verma', '2004-09-11', 80000, '14-06-11 09.00.00', 'Admin'),\n(003, 'Vishal', 'Singhal', '2003-09-18', 300000, '14-02-20 09.00.00', 'HR'),\n(004, 'Amitabh', 'Singh', '2005-04-22', 500000, '14-02-20 09.00.00', 'Admin'),\n(005, 'Vivek', 'Bhati', '2005-08-10', 500000, '14-06-11 09.00.00', 'Admin'),\n(006, 'Vipul', 'Diwan', '2004-01-22', 200000, '14-06-11 09.00.00', 'Account'),\n(007, 'Satish', 'Kumar', '2002-08-01', 75000, '14-01-20 09.00.00', 'Account'),\n(008, 'Geetika', 'Chauhan', '2000-01-03', 90000, '14-04-11 09.00.00','Admin');\n\nSELECT * FROM WORKER;\n\nCREATE TABLE TITLE(\n    worker_ref_id INT UNSIGNED,\n    worker_title VARCHAR(50),\n    affected_from DATETIME,\n    FOREIGN KEY (worker_ref_id) \n        REFERENCES WORKER(worker_id)\n        ON DELETE CASCADE\n);\n\nINSERT INTO TITLE\n(worker_ref_id, worker_title, affected_from) VALUES\n(001,'Manager','2016-02-20 00:00:00'),\n(002,'Executive','2016-06-11 00:00:00'),\n(008,'Executive','2016-06-11 00:00:00'),\n(005,'Manager',' 2016-06-11 00:00:00'),\n(004,'Asst. Manager', '2016-06-11 00:00:00'),\n(007,'Executive','2016-06-11 00:00:00'),\n(006,'Lead','2016-06-11 00:00:00'),\n(003,'Lead','2016-06-11 00:00:00');\n\n# SELECT FROM TABLE \nSELECT * FROM WORKER;\nSELECT CONCAT(CONCAT(first_name, \" \"), last_NAME) AS name, salary FROM WORKER;\nSELECT *, DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), date_of_birth)), '%Y') + 0  AS age FROM WORKER; # GET AGE OF ALL WORKERS\n\n# SELECT WITHOUT USING ANY TABLE  \nSELECT NOW() AS DATE;\nSELECT UCASE('Chirag Is a Coder !');\nSELECT LCASE('CHIRAG IS A CODER !');\n\n# WHERE\nSELECT * FROM WORKER WHERE salary > 80000;\nSELECT * FROM WORKER WHERE department != 'HR';\n\n# BETWEEN\nSELECT * FROM WORKER WHERE salary BETWEEN 80000 AND 200000;\n\n# OR\nSELECT * FROM WORKER WHERE department = 'HR' OR department = 'Admin';\n\n# IN BETTER WAY\nSELECT * FROM WORKER WHERE department IN ('HR', 'Admin', 'Account');\n\n# NOT\nSELECT * FROM WORKER WHERE department NOT IN ('HR', 'Admin');\n\n# IS NULL\nINSERT INTO WORKER VALUE (015, 'Ritika' , 'Maheshwari', '2004-04-12' , 1000000, '14-02-20 09.00.00', NULL);\nDELETE FROM WORKER WHERE worker_id = 15;\nSELECT * FROM WORKER WHERE department IS NULL;\n\n# WILDCARD\nSELECT * FROM WORKER;\nSELECT * FROM WORKER WHERE first_name LIKE '%ik%';\nSELECT * FROM WORKER WHERE first_name LIKE '_i%';\n\n# SORTING \nSELECT * FROM WORKER ORDER BY salary; # Default Acending\nSELECT * FROM WORKER ORDER BY salary DESC; \n\n# DISTINCT\nSELECT DISTINCT department FROM WORKER;\n\n# GROUP BY\nSELECT department, COUNT(department) FROM WORKER GROUP BY department;\nSELECT department, AVG(salary) FROM WORKER GROUP BY department;\nSELECT department, MIN(salary) FROM WORKER GROUP BY department;\nSELECT department, MAX(salary) FROM WORKER GROUP BY department;\nSELECT department, SUM(salary) FROM WORKER GROUP BY department;\n\n\n# DATA DEFINITION LANGUAGE (DDL) \n\n# 1. PRIMARY KEY | FOREIGN KEY\nCREATE TABLE CUSTOMER(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(50),\n    address VARCHAR(50),\n    gender VARCHAR(2),\n    city VARCHAR(15),\n    pincode INTEGER\n);\n\nCREATE TABLE ORDER_DETAILS(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    delivery_date DATETIME,\n    customer_id INT UNSIGNED NOT NULL,\n    FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id)\n);\n\n# 2. CONSISTENCY CONSTRAINTS | UNIQUE | DEFAULT | CHECK\nCREATE TABLE ACCOUNT(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(50) UNIQUE,\n    balance INT NOT NULL DEFAULT 0\n    # CONSTRAINT account_balance_check CHECK(balance >= 10000)\n);\n\nINSERT INTO ACCOUNT (id, name, balance) VALUES (1, 'Chirag Bhisikar', 10001);\nINSERT INTO ACCOUNT (id, name, balance) VALUES (2, 'Haresh Bhisikar', 10000);\nINSERT INTO ACCOUNT (id, name) VALUES (3, 'Ronak Bhisikar');\nSELECT * FROM ACCOUNT;\n\n# ALTER TABLE | ADD\nALTER TABLE ACCOUNT ADD pan_number VARCHAR(20) NOT NULL DEFAULT 0;\n# MODIFY COLUMN DATATYPE | MODIFY\nALTER TABLE ACCOUNT MODIFY pan_number CHAR(20) NOT NULL DEFAULT 0;\n# RENAME COLUMN | CHANGE\nALTER TABLE ACCOUNT CHANGE COLUMN pan_number pan_no VARCHAR(20) NOT NULL DEFAULT 0;\n# DROP COLUMN | DROP\nALTER TABLE ACCOUNT DROP COLUMN pan_no;\n# RENAME TABLE NAME | RENAME\nALTER TABLE ACCOUNT RENAME TO ACCOUNT_DETAILS;\n\n# DESCRIBE TABLE\nDESC ACCOUNT_DETAILS;\n\n# DATA MANIPULATION LANGUAGE (DML)\n\n# 1.INSERT | SINGLE | MULTIPLE ROW ADD\nINSERT INTO ACCOUNT (id, name, balance) VALUES (5, 'Akash Bhisikar', 20001);\nINSERT INTO ACCOUNT (id, name, balance) VALUES \n    (1, 'Chirag Bhisikar', 30001),\n    (2, 'Haresh Bhisikar', 40000),\n    (3, 'Ronak Bhisikar', 50000);\nINSERT INTO ACCOUNT VALUES (4, 'Aman Bhisikar', 60001);\nSELECT * FROM ACCOUNT;\n\n# 2. UPDATE\nUPDATE ACCOUNT SET name = 'Minesh Bhisikar', balance = 80000 WHERE id = 3;\nUPDATE ACCOUNT SET balance = 80000;\n\n# 3. DELETE\nDELETE FROM ACCOUNT WHERE id = 5; # DELETE ROWS WHERE id = 5\nDELETE FROM ACCOUNT; # DELETE ALL ROWS OF TABLE\n\n# DELETE ON DELETE CASCADE | ON DELETE SET NULL\nDROP TABLE CUSTOMER;\nDROP TABLE ORDER_DETAILS;\n\nCREATE TABLE CUSTOMER(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(50),\n    address VARCHAR(50),\n    gender VARCHAR(2),\n    city VARCHAR(15),\n    pincode INTEGER\n);\n\nCREATE TABLE ORDER_DETAILS(\n    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,\n    delivery_date DATETIME,\n    customer_id INT UNSIGNED,\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id)\n    # FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE\n    FOREIGN KEY(customer_id) REFERENCES CUSTOMER(id) ON DELETE SET NULL\n);\n\nINSERT INTO CUSTOMER VALUE(1,'A', 'Ahmedabad','M', 'Ahmedabad', 382415);\nINSERT INTO ORDER_DETAILS VALUE(1,'2022-04-22 10:34:23',1);\n\nDELETE FROM CUSTOMER WHERE id = 1;\nSELECT * FROM ORDER_DETAILS;\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 193,
+                    "column": 15
+                },
+                "position": {
+                    "lineNumber": 193,
+                    "column": 15
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 174,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -16
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 195,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "e7301b08-cb66-4afb-ef0a-60fe58a96a25"
+                    ]
+                },
+                "currentHeight": 88.8125,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 15
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 15,
+                            "length": 30
+                        },
+                        "contentStart": 16,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 45,
+                            "length": 18
+                        },
+                        "contentStart": 46,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 63,
+                            "length": 315
+                        },
+                        "contentStart": 141,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 378,
+                            "length": 733
+                        },
+                        "contentStart": 380,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1111,
+                            "length": 23
+                        },
+                        "contentStart": 1113,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1134,
+                            "length": 210
+                        },
+                        "contentStart": 1136,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1344,
+                            "length": 391
+                        },
+                        "contentStart": 1346,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1735,
+                            "length": 44
+                        },
+                        "contentStart": 1758,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1779,
+                            "length": 79
+                        },
+                        "contentStart": 1780,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1858,
+                            "length": 96
+                        },
+                        "contentStart": 1859,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1954,
+                            "length": 83
+                        },
+                        "contentStart": 2016,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2037,
+                            "length": 37
+                        },
+                        "contentStart": 2038,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2074,
+                            "length": 37
+                        },
+                        "contentStart": 2075,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2111,
+                            "length": 52
+                        },
+                        "contentStart": 2121,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2163,
+                            "length": 47
+                        },
+                        "contentStart": 2164,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2210,
+                            "length": 71
+                        },
+                        "contentStart": 2222,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2281,
+                            "length": 76
+                        },
+                        "contentStart": 2288,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2357,
+                            "length": 86
+                        },
+                        "contentStart": 2375,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2443,
+                            "length": 69
+                        },
+                        "contentStart": 2451,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2512,
+                            "length": 119
+                        },
+                        "contentStart": 2524,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2631,
+                            "length": 41
+                        },
+                        "contentStart": 2633,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2672,
+                            "length": 47
+                        },
+                        "contentStart": 2673,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2719,
+                            "length": 34
+                        },
+                        "contentStart": 2732,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2753,
+                            "length": 51
+                        },
+                        "contentStart": 2754,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2804,
+                            "length": 50
+                        },
+                        "contentStart": 2805,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2854,
+                            "length": 50
+                        },
+                        "contentStart": 2867,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2904,
+                            "length": 62
+                        },
+                        "contentStart": 2924,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2966,
+                            "length": 53
+                        },
+                        "contentStart": 2980,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3019,
+                            "length": 82
+                        },
+                        "contentStart": 3032,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3101,
+                            "length": 64
+                        },
+                        "contentStart": 3102,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3165,
+                            "length": 64
+                        },
+                        "contentStart": 3166,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3229,
+                            "length": 64
+                        },
+                        "contentStart": 3230,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3293,
+                            "length": 64
+                        },
+                        "contentStart": 3294,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3357,
+                            "length": 263
+                        },
+                        "contentStart": 3426,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3620,
+                            "length": 209
+                        },
+                        "contentStart": 3622,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3829,
+                            "length": 266
+                        },
+                        "contentStart": 3887,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4095,
+                            "length": 79
+                        },
+                        "contentStart": 4097,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4174,
+                            "length": 78
+                        },
+                        "contentStart": 4175,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4252,
+                            "length": 61
+                        },
+                        "contentStart": 4253,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4313,
+                            "length": 23
+                        },
+                        "contentStart": 4314,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4336,
+                            "length": 88
+                        },
+                        "contentStart": 4358,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4424,
+                            "length": 101
+                        },
+                        "contentStart": 4459,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4525,
+                            "length": 109
+                        },
+                        "contentStart": 4551,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4634,
+                            "length": 61
+                        },
+                        "contentStart": 4656,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4695,
+                            "length": 76
+                        },
+                        "contentStart": 4725,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4771,
+                            "length": 40
+                        },
+                        "contentStart": 4791,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4811,
+                            "length": 153
+                        },
+                        "contentStart": 4888,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 4964,
+                            "length": 152
+                        },
+                        "contentStart": 4965,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5116,
+                            "length": 56
+                        },
+                        "contentStart": 5117,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5172,
+                            "length": 23
+                        },
+                        "contentStart": 5173,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5195,
+                            "length": 88
+                        },
+                        "contentStart": 5209,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5283,
+                            "length": 36
+                        },
+                        "contentStart": 5284,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5319,
+                            "length": 47
+                        },
+                        "contentStart": 5334,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5366,
+                            "length": 48
+                        },
+                        "contentStart": 5395,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5414,
+                            "length": 97
+                        },
+                        "contentStart": 5492,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5511,
+                            "length": 26
+                        },
+                        "contentStart": 5513,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5537,
+                            "length": 196
+                        },
+                        "contentStart": 5539,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 5733,
+                            "length": 347
+                        },
+                        "contentStart": 5735,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6080,
+                            "length": 74
+                        },
+                        "contentStart": 6082,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6154,
+                            "length": 60
+                        },
+                        "contentStart": 6155,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6214,
+                            "length": 36
+                        },
+                        "contentStart": 6217,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6250,
+                            "length": 29
+                        },
+                        "contentStart": 6251,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 6279,
+                            "length": 2
+                        },
+                        "contentStart": 6278,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "9d0bef2d-c3c2-4207-fae9-2cb68052b155",
+                    "resultId": "e7301b08-cb66-4afb-ef0a-60fe58a96a25",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "2022-04-22 10:34:23",
+                            "2": null
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "delivery_date",
+                            "field": "1",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "customer_id",
+                            "field": "2",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.53ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "\nSELECT * FROM ORDER_DETAILS;",
+                    "updatable": true,
+                    "fullTableName": "ORDER_DETAILS"
+                }
+            ]
+        }
+    ]
+}
